@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        function activateCard(card) {
+    // Remove active class from all cards
+    var cards = document.querySelectorAll('.card');
+    cards.forEach(function(c) {
+        c.classList.remove('active');
+    });
+
+    // Add active class to clicked card
+    card.classList.add('active');
+}
+
+    </script>
+</head>
+<style>
+    .card-container {
+    display: flex;
+    justify-content: flex-start;
+    width: 900px;
+    height: 200px;
+    margin: 50px auto;
+    overflow: hidden; /* Ensures that overflow is hidden */
+}
+
+.card {
+    flex: 0 0 60px; /* Inactive cards take up 60px width */
+    height: 90%;
+    background-color: #f4f4f4;
+    border: 1px solid #ccc;
+    padding: 10px;
+    box-sizing: border-box;
+    transition: width 0.5s ease, opacity 0.5s ease;
+    cursor: pointer;
+    overflow: hidden;
+    opacity: 0.5;
+    z-index: 1;
+    border-radius: 5px;
+    margin: 10px 0;
+}
+
+.card h3 {
+    margin: 0;
+}
+
+.card .content {
+    display: none;
+}
+
+.card.active {
+    flex: 0 0 140px; /* Active card takes up 140px width */
+    opacity: 1;
+    z-index: 4;
+    background-color: lightgreen;
+    height: 100%;
+    margin: 0;
+}
+
+.card.active .content {
+    display: block;
+}
+
+/* Adjust positioning of inactive cards */
+.card:not(.active) {
+    transform: translateX(0 px);
+    
+}
+
+</style>
+<body>
+    <div class="card-container">
+        <div class="card active" onclick="activateCard(this)">
+            <h3>Card1</h3>
+            <p class="content">This is the content of Card 1. This is fully visible.</p>
+        </div>
+        <div class="card" onclick="activateCard(this)">
+            <h3>Card2</h3>
+            <p class="content">This is the content of Card 2. This is partially visible.</p>
+        </div>
+        <div class="card" onclick="activateCard(this)">
+            <h3>Card3</h3>
+            <p class="content">This is the content of Card 3. This is partially visible.</p>
+        </div>
+        <div class="card" onclick="activateCard(this)">
+            <h3>Card4</h3>
+            <p class="content">This is the content of Card 4. This is partially visible.</p>
+        </div>
+        <div class="card" onclick="activateCard(this)">
+            <h3>Card5</h3>
+            <p class="content">This is the content of Card 5. This is partially visible.</p>
+        </div>
+        <div class="card" onclick="activateCard(this)">
+            <h3>Card6</h3>
+            <p class="content">This is the content of Card 6. This is partially visible.</p>
+        </div>
+        <div class="card" onclick="activateCard(this)">
+            <h3>Card7</h3>
+            <p class="content">This is the content of Card 7. This is partially visible.</p>
+        </div>
+        <div class="card" onclick="activateCard(this)">
+            <h3>Card8</h3>
+            <p class="content">This is the content of Card 8. This is partially visible.</p>
+        </div>
+    </div>
+    
+</body>
+</html>
