@@ -3,110 +3,118 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <script>
-        function activateCard(card) {
-    // Remove active class from all cards
-    var cards = document.querySelectorAll('.card');
-    cards.forEach(function(c) {
-        c.classList.remove('active');
-    });
+    <title>Dynamic Tree with Cards</title>
+    <style>
+       .map{
+margin: 50px;
+        }
+        .tree-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
 
-    // Add active class to clicked card
-    card.classList.add('active');
-}
+        .tree-container {
+            display: flex;
+            justify-content: space-around;
+            align-items: flex-start;
+            position: relative;
+            width: 100%;
+        }
 
-    </script>
+        .horizontal-line {
+            width: 100%; /* Adjust this to change the length of the top line */
+            height: 2px;
+            background-color: black;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .tree-line {
+            height: 40px;
+            width: 2px;
+            background-color: black;
+            position: relative;
+            margin-left: 20px;
+            margin-right: 20px;
+        }
+
+        .card-container {
+            display: flex;
+            justify-content: space-around;
+        }
+
+        .card {
+            width: 100px;
+            height: 150px;
+            background-color: white;
+            border: 1px solid black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 18px;
+            font-family: Arial, sans-serif;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        .label {
+            position: absolute;
+            top: -10px;
+            left: -30px;
+            background-color: white;
+            padding: 2px 5px;
+            border: 1px solid black;
+            font-family: Arial, sans-serif;
+        }
+    </style>
 </head>
-<style>
-    .card-container {
-    display: flex;
-    justify-content: flex-start;
-    width: 900px;
-    height: 200px;
-    margin: 50px auto;
-    overflow: hidden; /* Ensures that overflow is hidden */
-}
-
-.card {
-    flex: 0 0 60px; /* Inactive cards take up 60px width */
-    height: 90%;
-    background-color: #f4f4f4;
-    border: 1px solid #ccc;
-    padding: 10px;
-    box-sizing: border-box;
-    transition: width 0.5s ease, opacity 0.5s ease;
-    cursor: pointer;
-    overflow: hidden;
-    opacity: 0.5;
-    z-index: 1;
-    border-radius: 5px;
-    margin: 10px 0;
-}
-
-.card h3 {
-    margin: 0;
-}
-
-.card .content {
-    display: none;
-}
-
-.card.active {
-    flex: 0 0 140px; /* Active card takes up 140px width */
-    opacity: 1;
-    z-index: 4;
-    background-color: lightgreen;
-    height: 100%;
-    margin: 0;
-}
-
-.card.active .content {
-    display: block;
-}
-
-/* Adjust positioning of inactive cards */
-.card:not(.active) {
-    transform: translateX(0 px);
-    
-}
-
-</style>
 <body>
-    <div class="card-container">
-        <div class="card active" onclick="activateCard(this)">
-            <h3>Card1</h3>
-            <p class="content">This is the content of Card 1. This is fully visible.</p>
-        </div>
-        <div class="card" onclick="activateCard(this)">
-            <h3>Card2</h3>
-            <p class="content">This is the content of Card 2. This is partially visible.</p>
-        </div>
-        <div class="card" onclick="activateCard(this)">
-            <h3>Card3</h3>
-            <p class="content">This is the content of Card 3. This is partially visible.</p>
-        </div>
-        <div class="card" onclick="activateCard(this)">
-            <h3>Card4</h3>
-            <p class="content">This is the content of Card 4. This is partially visible.</p>
-        </div>
-        <div class="card" onclick="activateCard(this)">
-            <h3>Card5</h3>
-            <p class="content">This is the content of Card 5. This is partially visible.</p>
-        </div>
-        <div class="card" onclick="activateCard(this)">
-            <h3>Card6</h3>
-            <p class="content">This is the content of Card 6. This is partially visible.</p>
-        </div>
-        <div class="card" onclick="activateCard(this)">
-            <h3>Card7</h3>
-            <p class="content">This is the content of Card 7. This is partially visible.</p>
-        </div>
-        <div class="card" onclick="activateCard(this)">
-            <h3>Card8</h3>
-            <p class="content">This is the content of Card 8. This is partially visible.</p>
-        </div>
-    </div>
-    
+<div class="map">
+<div class="tree-wrapper">
+    <!-- Horizontal line connecting nodes -->
+    <div class="horizontal-line"></div>
+
+    <!-- Tree container to hold vertical lines and labels -->
+    <div id="tree-container" class="tree-container"></div>
+</div>
+<div id="card-container" class="card-container"></div>
+</div>
+<script>
+    // Sample data for tree nodes and corresponding cards
+    const treeData = [
+        { id: 1, label: 'April', cardContent: 'April' },
+        { id: 2, label: 'June', cardContent: 'June' },
+        { id: 3, label: 'February', cardContent: 'February' },
+        { id: 4, label: 'December', cardContent: 'December' },
+        { id: 4, label: 'March', cardContent: 'March' },
+        { id: 4, label: 'June', cardContent: 'June' },
+        { id: 4, label: 'April', cardContent: 'April' },
+    ];
+
+    // Function to create the tree structure
+    function createTree(treeData) {
+        const treeContainer = document.getElementById('tree-container');
+        const cardContainer = document.getElementById('card-container');
+
+        treeData.forEach(node => {
+            // Create the tree node with label
+            const treeNode = document.createElement('div');
+            treeNode.classList.add('tree-line');
+            treeNode.innerHTML = `<div class="label">${node.label}</div>`;
+            treeContainer.appendChild(treeNode);
+
+            // Create the corresponding card
+            const card = document.createElement('div');
+            card.classList.add('card');
+            card.textContent = node.cardContent;
+            cardContainer.appendChild(card);
+        });
+    }
+    // Initialize the tree and cards
+    createTree(treeData);
+</script>
 </body>
 </html>
